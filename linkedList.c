@@ -48,6 +48,14 @@ node *add_last(node *head, int value)
         return newHead;
     }
 
+    node *tmp = head;
+    while (tmp->next != NULL)
+    {
+        tmp = tmp->next;
+    }
+
+    tmp->next = newHead;
+    return head;
     
 }
 
@@ -55,10 +63,10 @@ int main(void)
 {
     node *head = init_list(head);
 
-    // head = add_start(head, 34);
-    // head = add_start(head, 105);
-    // head = add_start(head, 2);
-    // head = add_start(head, 67);
+    head = add_last(head, 34);
+    head = add_last(head, 105);
+    head = add_last(head, 2);
+    head = add_last(head, 67);
 
     printList(head);
 }
