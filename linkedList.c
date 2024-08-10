@@ -1,11 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Node
+struct Node
 {
     int value;
     struct Node *next;
-} node;
+};
+
+typedef struct Node node;
 
 node *init_list(node *head)
 {
@@ -29,23 +31,23 @@ void printList(node *head)
     }
 }
 
-node *add_start(node *head, int value)
+node *insertAtHead(node *head, int value)
 {
-    node *newHead = malloc(sizeof(node));
-    newHead->value = value;
-    newHead->next = head;
-    return newHead;
+    node *newNode = malloc(sizeof(node));
+    newNode->value = value;
+    newNode->next = head;
+    return newNode;
 }
 
-node *add_last(node *head, int value)
+node *insertAtEnd(node *head, int value)
 {
-    node *newHead = malloc(sizeof(node));
-    newHead->value = value;
-    newHead->next = NULL;
+    node *newNode = malloc(sizeof(node));
+    newNode->value = value;
+    newNode->next = NULL;
 
     if (head == NULL)
     {
-        return newHead;
+        return newNode;
     }
 
     node *tmp = head;
@@ -54,19 +56,130 @@ node *add_last(node *head, int value)
         tmp = tmp->next;
     }
 
-    tmp->next = newHead;
+    tmp->next = newNode;
     return head;
-    
+}
+
+node *insertAtPosition(node *head, int value, int position)
+{
+    node *newNode = malloc(sizeof(node));
+    newNode->value = value;
+
+    if (position == 0 || head == NULL)
+    {
+        newNode->next = head;
+        return newNode;
+    }
+
+    node *tmp = head;
+    node *ptmp = NULL;
+
+    while (tmp != NULL)
+    {
+        if (position == 0)
+        {
+            newNode->next = tmp;
+            ptmp->next = newNode;
+            return head;
+        }
+        position--;
+        ptmp = tmp;
+        tmp = tmp->next;
+    }
+    newNode->next = NULL;
+    ptmp->next = newNode;
+    return head;
+}
+
+node *deleteTail(node *head)
+{
+    if (head == NULL)
+    {
+        return NULL;
+    }
+
+    if (head->next == NULL)
+    {
+        free(head);
+        return NULL;
+    }
+
+    node *tmp = head;
+    node *ptmp;
+    while (tmp->next != NULL)
+    {
+        ptmp = tmp;
+        tmp = tmp->next;
+    }
+    ptmp->next = NULL;
+    free(tmp);
+    return head;
+}
+
+node *deleteHead(node *head)
+{
+    if (head == NULL)
+    {
+        return NULL;
+    }
+
+    node *tmp = head->next;
+    free(head);
+    return tmp;
+}
+
+node *deleteAtPosition(node *head, int position)
+{
+
+    if (head == NULL || head->next == NULL)
+    {
+        free(head);
+        return NULL;
+    }
+
+    if (position == 0)
+    {
+        return deleteHead(head);
+    }
+
+    node *tmp = head;
+    node *ptmp = NULL;
+    while (tmp->next != NULL)
+    {
+        if (position == 0)
+        {
+            ptmp->next = tmp->next;
+            free(tmp);
+            return head;
+        }
+        position--;
+        ptmp = tmp;
+        tmp = tmp->next;
+    }
+    ptmp->next = NULL;
+    free(tmp);
+    return head;
 }
 
 int main(void)
 {
     node *head = init_list(head);
 
-    head = add_last(head, 34);
-    head = add_last(head, 105);
-    head = add_last(head, 2);
-    head = add_last(head, 67);
+    head = insertAtEnd(head, 34);
+    head = insertAtEnd(head, 105);
+    head = insertAtEnd(head, 2);
+    head = insertAtEnd(head, 67);
+
+    // head = insertAtHead(head, 34);
+    // head = insertAtHead(head, 105);
+    // head = insertAtHead(head, 2);
+    // head = insertAtHead(head, 67);
+
+    // head = deleteHead(head);
+    // head = deleteTail(head);
+
+    // head = insertAtPosition(head, 100, 5);
+    // head = deleteAtPosition(head, 0);
 
     printList(head);
 }
