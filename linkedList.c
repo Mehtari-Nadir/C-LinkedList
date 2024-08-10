@@ -161,6 +161,30 @@ node *deleteAtPosition(node *head, int position)
     return head;
 }
 
+int sizeOfList(node *head, node *tmp)
+{
+    if (tmp == NULL)
+    {
+        return 0;
+    }
+    return 1 + sizeOfList(head, tmp->next);
+}
+
+int occurrencesElement(node *head, node *tmp, int element)
+{
+    if (tmp == NULL)
+    {
+        return 0;
+    }
+
+    if (tmp->value == element)
+    {
+        return 1 + occurrencesElement(head, tmp->next, element);
+    }
+
+    return occurrencesElement(head, tmp->next, element);
+}
+
 int main(void)
 {
     node *head = init_list(head);
@@ -179,7 +203,14 @@ int main(void)
     // head = deleteTail(head);
 
     // head = insertAtPosition(head, 100, 5);
-    // head = deleteAtPosition(head, 0);
+    // head = deleteAtPosition(head, 2);
+
+    // int size = sizeOfList(head, head);
+    // printf("the size : %d\n", size);
+
+    // int element = 2;
+    // int result = occurrencesElement(head, head, element);
+    // printf("the occurrences of %d : %d\n", element, result);
 
     printList(head);
 }
