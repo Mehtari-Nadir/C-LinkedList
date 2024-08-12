@@ -170,7 +170,7 @@ int sizeOfList(node *head, node *tmp)
     return 1 + sizeOfList(head, tmp->next);
 }
 
-int occurrencesElement(node *head, node *tmp, int element)
+int occurrencesElement(node *tmp, int element)
 {
     if (tmp == NULL)
     {
@@ -179,10 +179,29 @@ int occurrencesElement(node *head, node *tmp, int element)
 
     if (tmp->value == element)
     {
-        return 1 + occurrencesElement(head, tmp->next, element);
+        return 1 + occurrencesElement(tmp->next, element);
     }
 
-    return occurrencesElement(head, tmp->next, element);
+    return occurrencesElement(tmp->next, element);
+}
+
+node *elementOf(node *tmp, int position)
+{
+    if (position == 0 || tmp == NULL)
+    {
+        return tmp;
+    }
+
+    return elementOf(tmp->next, --position);
+}
+
+node *findElement(node *tmp, int value)
+{
+    if (tmp == NULL || value == tmp->value)
+    {
+        return tmp;
+    }
+    return findElement(tmp->next, value);
 }
 
 int main(void)
@@ -211,6 +230,24 @@ int main(void)
     // int element = 2;
     // int result = occurrencesElement(head, head, element);
     // printf("the occurrences of %d : %d\n", element, result);
+
+    // int position = 0;
+    // node *element = elementOf(head, position);
+    // if (element != NULL)
+    // {
+    //     printf("Element of position %d = %d\n", position, element->value);
+    // }
+    // else
+    // {
+    //     printf("Element of position %d not exist!!\n", position);
+    // }
+
+    // int value = 0;
+    // node *element = findElement(head, value);
+    // if (element == NULL)
+    // {
+    //     printf("there is not node with value : %d in the list!!\n", value);
+    // }
 
     printList(head);
 }
