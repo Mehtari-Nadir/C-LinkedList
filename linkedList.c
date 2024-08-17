@@ -128,6 +128,11 @@ node *deleteHead(node *head)
     return tmp;
 }
 
+void testFun()
+{
+    printf("HI, all\n");
+}
+
 node *deleteAtPosition(node *head, int position)
 {
 
